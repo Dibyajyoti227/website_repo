@@ -311,7 +311,14 @@ var ecommerceConfig={
 var imageBg = null;
 
 $('.dropdown').find('a').each(function() {
-    $(this).attr('href',$(this).attr('href')+"?innove");
+    var href = $(this).attr('href') || '';
+    if (href.indexOf('innove') === -1) {
+        if (href.indexOf('?') === -1) {
+            $(this).attr('href', href + '?innove');
+        } else {
+            $(this).attr('href', href + '&innove');
+        }
+    }
 });
 </script>
 
