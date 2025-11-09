@@ -178,7 +178,7 @@
 
 
     
-        <form method="post" action="">
+    <form id="contactForm" method="post" action="https://script.google.com/macros/s/AKfycbxfa8CSDkYZdS0rSUF1nahTlzvvc6Jw5mjpgOnsj5af2P6_4bjUR2TDOVNoFvCqrbcU/exec">
             <div class="alert alert-success" style="display: none;" id="email_sent">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>Success!</strong> Your email has been sent successfully.
@@ -195,7 +195,9 @@
                                                                                                         <button id="textforsubmitbtn" type="button" class="button theme-button" value="Submit">Submit
             </button>
 
-            <input type="hidden" name="website_source" value="innove.ai"></form>
+            <input type="hidden" name="website_source" value="innove.ai">
+            <input type="hidden" name="deploymentId" value="AKfycbxfa8CSDkYZdS0rSUF1nahTlzvvc6Jw5mjpgOnsj5af2P6_4bjUR2TDOVNoFvCqrbcU">
+        </form>
 
             
 
@@ -203,7 +205,7 @@
   <p style="font-size: 18px; margin-bottom: 12px;">Prefer to talk directly?</p>
   <a href="https://calendar.app.google/E6RiXDrGDjyVjdbE7" target="_blank" style="
     display:inline-block;
-    background:#c13396 !important;
+    background:#c13359 !important;
     padding:14px 28px;
     color:white;
     text-decoration:none;
@@ -378,6 +380,45 @@ $('.dropdown').find('a').each(function() {
         'template' : 'inspire-hub'
     }
 
+</script>
+<script>
+(function(){
+    var scriptURL = 'https://script.google.com/macros/s/AKfycbxfa8CSDkYZdS0rSUF1nahTlzvvc6Jw5mjpgOnsj5af2P6_4bjUR2TDOVNoFvCqrbcU/exec';
+    var form = document.getElementById('contactForm');
+    var btn = document.getElementById('textforsubmitbtn');
+    var successEl = document.getElementById('email_sent');
+    if (!form || !btn) return;
+
+    // Intercept the button click and POST FormData to Apps Script
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerText = 'Sending...';
+        var fd = new FormData(form);
+
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'cors',
+            body: fd
+        }).then(function (res) {
+            return res.text();
+        }).then(function (text) {
+            // Show success message (Apps Script can return custom text)
+            if (successEl) {
+                successEl.style.display = 'block';
+            } else {
+                alert('Message sent successfully');
+            }
+            form.reset();
+        }).catch(function (err) {
+            console.error(err);
+            alert('Error sending message; please try again later.');
+        }).finally(function () {
+            btn.disabled = false;
+            btn.innerText = 'Submit';
+        });
+    });
+})();
 </script>
 <script custom-script-id="website_global" src="//static.sitemantic.com/webbuilder/js/website_global.js"></script>
 
